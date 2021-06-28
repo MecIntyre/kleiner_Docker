@@ -2,7 +2,7 @@
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/focal64"
-  config.vm.define = "docker1" do |docker1|
+  config.vm.define "docker1" do |docker1|
     docker1.vm.hostname = "docker1"
     docker1.vm.network "private_network", ip: "192.168.100.100"
     docker1.vm.provider "virtualbox" do |vb|
@@ -10,6 +10,6 @@ Vagrant.configure("2") do |config|
       vb.cpus = "2"
       vb.memory = "4096"
     end
-    docker.vm.provision "shell", path: "scripts/docker-provision.sh"
+    docker1.vm.provision "shell", path: "scripts/docker-provision.sh"
   end
 end
