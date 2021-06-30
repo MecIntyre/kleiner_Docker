@@ -4,12 +4,12 @@
 export DEBIAN_FRONTEND=noninteractiv
 
 # Paketverarbeitung über HTTPS
-apt-get -y install apt-transport-https ca-certificates curl \ 
-    gnupg lsb-release
+apt-get -y install apt-transport-https ca-certificates curl \
+  gnupg lsb-release
 
 # Offizieller GPG Key zur Zertifizierung hinzufügen
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg \ 
-    | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+  | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 # Set up Repo und Docker hinzufügen
 echo \
