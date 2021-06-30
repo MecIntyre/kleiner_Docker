@@ -3,23 +3,29 @@
 # APT im nicht-interaktiven Modus 
 export DEBIAN_FRONTEND=noninteractiv
 
-# Aktualisierung der Paketdatenbank
-apt update
 # Paketverarbeitung über HTTPS
-apt-get install apt-transport-https ca-certificates curl software-properties-common
-# Offizieller GPG Key hinzufügen
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+apt-get -y install apt-transport-https ca-certificates curl \ 
+    gnupg lsb-release
+
+# Offizieller GPG Key zur Zertifizierung hinzufügen
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg \ 
+    | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
 # Set up Repo und Docker hinzufügen
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
 # Aktualisierung der Paketdatenbank mit den Docker-Paketen aus dem neuen Repo
-apt update
-# Repo update und Sicherstellung des Docker Repos
-apt-cache policy docker-ce
+apt-get update
+
 # Docker installieren
 apt-get -y install docker-ce docker-ce-cli containerd.io
+
 # Docker einschalten
 systemctl enable --now docker
-#Benutzer "Vagrant" hinzufügen
+
+# Benutzer "Vagrant" hinzufügen
 adduser vagrant docker
 
 # Default Route setzen
