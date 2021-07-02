@@ -19,8 +19,9 @@ echo \
 # Aktualisierung der Paketdatenbank mit den Docker-Paketen aus dem neuen Repo
 apt-get update
 
-# Docker installieren
-apt-get -y install docker-ce docker-ce-cli containerd.io
+# Docker, Docker-Compose und Git installieren
+apt-get -y install docker-ce docker-ce-cli containerd.io \
+  git docker-compose
 
 # Docker einschalten
 systemctl enable --now docker
@@ -37,3 +38,13 @@ systemctl disable --now systemd-resolved
 rm /etc/resolv.conf
 echo "nameserver 192.168.100.2" > /etc/resolv.conf
 echo "search kurs.iad" >> /etc/resolv.conf
+
+# Ordner für Github Repo erstellen und betreten
+mkdir -p /home/git && cd /home/git
+
+# Github Repo downloaden und fehlender Ordner "Model" erstellen
+git clone https://github.com/MecIntyre/chatbot_docker.git
+cd chatbot_docker && mkdir v3/model
+
+# Chatbot starten
+docker-compose up -d
