@@ -7,6 +7,3 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get -y dist-upgrade
 apt-get --purge -y autoremove
-
-# Tastatur Layout "Deutsch"
-dpkg-reconfigure keyboard-configuration && loadkeys de

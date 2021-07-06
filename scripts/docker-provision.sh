@@ -50,22 +50,21 @@ cd chatbot_docker && mkdir v3/model
 docker-compose up -d
 
 mkdir -p /etc/traefik && cd /etc/traefik
-echo "# Docker configuration backend" > traefik.yml
+echo "# Docker configuration backend"> traefik.yml
 echo "providers:" >> traefik.yml
-echo "  docker:" >> traefik.yml
-echo "    defaultRule: \"Host(\`{{ trimPrefix \`/\` .Name }}.docker.localhost\`)\"" >> traefik.yml
-echo "# API and dashboard configuration" >> traefik.yml
+echo " docker:" >> traefik.yml
+echo "  defaultRule: \"Host(\`{{ trimPrefix \`/\` .Name }}.docker.localhost\`)\"" >> traefik.yml
 echo "api:" >> traefik.yml
-echo "  insecure: true" >> traefik.yml
+echo " insecure: true" >> traefik.yml
 
-# Start Traefik
-  docker run -d -p 8080:8080 -p 80:80 \
+# Traefik starten
+docker run -d -p 8080:8080 -p 80:80 \
 -v $PWD/traefik.yml:/etc/traefik/traefik.yml \
 -v /var/run/docker.sock:/var/run/docker.sock \
-traefik:v2.4
+traefik:v2.0
 
-# Start a backend server, named test:
+# Server starten
 docker run -d --name test containous/whoami
 
-# curl --header 'Host:test.docker.localhost' 'http://localhost:80/'
+# $ curl --header 'Host:test.docker.localhost' 'http://localhost:80/'
 curl test.docker.localhost
